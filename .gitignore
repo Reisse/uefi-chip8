@@ -1,0 +1,6 @@
+# intermediate files
+*.o
+*.so
+
+# linked binaries
+*.efi
