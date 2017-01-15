@@ -1,8 +1,8 @@
 ARCH	=$(shell uname -m | sed s,i[3-9]86,ia32,)
 
-EFIINC	=/usr/include/efi
+EFIINC	=/usr/local/include/efi
 EFIINCS	=-I$(EFIINC) -I$(EFIINC)/$(ARCH) -I$(EFIINC)/protocol
-EFILIB	=/usr/lib
+EFILIB	=/usr/local/lib
 EFICRT	=$(EFILIB)/crt0-efi-$(ARCH).o
 EFILDS	=$(EFILIB)/elf_$(ARCH)_efi.lds
 

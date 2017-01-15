@@ -1,15 +1,17 @@
 # uefi-chip8
 CHIP-8/SCHIP emulator as an UEFI application
 ## Building
-You'll have to install `gnu-efi` library. If it is not present in your distro's repos, you can get it [here](https://sourceforge.net/projects/gnu-efi/).
-
-Debian:
+You'll have to build latest `gnu-efi` library. It is included as a submodule, so you should clone this repo:
 ```
-sudo apt install gnu-efi
+git clone --recursive https://github.com/Reisse/uefi-chip8.git
 ```
-Then you should clone this repo and run `make`:
+Then, make and install `gnu-efi`:
 ```
-git clone https://github.com/Reisse/uefi-chip8.git && cd uefi-chip8 && make
+cd ./uefi-chip8/gnu-efi-code/ && make && sudo make install
+```
+Finally, build uefi-chip8 itself:
+```
+cd .. && make
 ```
 This builds `uc8.efi` file, which is an UEFI application that you could run either in QEMU or on any UEFI device with secure boot switched off.
 ## Testing in QEMU
@@ -19,5 +21,6 @@ fs0:\uc8.efi
 ```
 ## License
 * The "qemu-env" directory contains its own LICENSE file with licensing information, please read it.
+* "gnu-efi" submodule also contains its own license information in `gnu-efi-code/README` file
 * For everything else, see LICENSE.md
 
