@@ -12,6 +12,7 @@
 typedef enum
 {
 	DS_OK = 0,
+	DS_BUSY,
 	DS_ERROR
 } display_status_t;
 

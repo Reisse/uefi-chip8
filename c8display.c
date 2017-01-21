@@ -14,6 +14,9 @@ display_status_t display_init()
 	EFI_HANDLE *HandleBuffer = NULL;
 	UINTN HandleCount;
 
+	if (GraphOut)
+		return DS_BUSY;
+
 	status = uefi_call_wrapper(BS->LocateHandleBuffer, 5, ByProtocol, &gEfiGraphicsOutputProtocolGuid, NULL, &HandleCount, &HandleBuffer);
 	if (EFI_ERROR(status))
 	{
