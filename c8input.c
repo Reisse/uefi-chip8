@@ -1,15 +1,8 @@
 #include "c8input.h"
 
-SIMPLE_INPUT_INTERFACE *CI = NULL;
-
-input_status_t input_init(SIMPLE_INPUT_INTERFACE *ConIn)
+input_status_t input_init()
 {
-	if (!ConIn)
-		return IN_ERROR;
-
-	CI = ConIn;
-
-	if (EFI_ERROR(uefi_call_wrapper(CI->Reset, 2, CI, FALSE)))
+	if (EFI_ERROR(uefi_call_wrapper(ST->ConIn->Reset, 2, ST->ConIn, FALSE)))
 		return IN_ERROR;
 
 	return IN_OK;
@@ -17,13 +10,10 @@ input_status_t input_init(SIMPLE_INPUT_INTERFACE *ConIn)
 
 keyevent_t input_next()
 {
-	if (!CI)
-		return KB_ERROR;
-
 	EFI_STATUS st;
 	EFI_INPUT_KEY *key_data = NULL;
 
-	st = uefi_call_wrapper(CI->ReadKeyStroke, 2, CI, key_data);
+	st = uefi_call_wrapper(ST->ConIn->ReadKeyStroke, 2, ST->ConIn, key_data);
 
 	if (st == EFI_DEVICE_ERROR)
 		return KB_ERROR;

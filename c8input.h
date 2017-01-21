@@ -31,5 +31,5 @@ typedef enum
 	KB_ERROR
 } keyevent_t;
 
-input_status_t input_init(SIMPLE_INPUT_INTERFACE *ExIn);
+input_status_t input_init();
 keyevent_t input_next();

@@ -3,6 +3,8 @@
 #include <efi.h>
 #include <efilib.h>
 
+#include "debug.h"
+
 #define DISPLAY_WIDTH 			64
 #define DISPLAY_HEIGHT 			32
 #define PX_SCALE_FACTOR			8
@@ -26,7 +28,7 @@ typedef enum
 	PX_FILLED
 } px_content_t;
 
-display_status_t display_init(SIMPLE_TEXT_OUTPUT_INTERFACE *ConOut, EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphOut);
+display_status_t display_init();
 display_status_t display_clear();
 px_status_t display_px_set(unsigned const int x, unsigned const int y, const px_content_t value);
 px_status_t display_px_flip(unsigned const int x, unsigned const int y);
