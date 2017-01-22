@@ -31,10 +31,10 @@ EFI_STATUS read_file(CHAR16 *path, UINTN *buf_sz, VOID *buf)
 		return status;
 	}
 
-	status = uefi_call_wrapper(FsVol->Open, 5, FsVol, File, path, EFI_FILE_MODE_READ);
+	status = uefi_call_wrapper(FsVol->Open, 5, FsVol, &File, path, EFI_FILE_MODE_READ);
 	if (EFI_ERROR(status))
 	{
-		LOG(L"Failed opening file: FsVol->Open returned %r\n", status);
+		LOG(L"Failed opening file \"%s\": FsVol->Open returned %r\n", path, status);
 		return status;
 	}
 
