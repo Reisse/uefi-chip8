@@ -9,7 +9,7 @@ EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable
 	INTN argc;
 
 	interpreter_status_t i_status;
-	struct interpreter_state* i_state = NULL;
+	struct interpreter_state i_state = {0};
 
 	InitializeLib(ImageHandle, SystemTable);
 	argc = GetShellArgcArgv(ImageHandle, &argv);
@@ -19,18 +19,18 @@ EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable
 		return EFI_SUCCESS;
 	}
 	else if (argc == 2)
-		i_state = interpreter_init(L"rom.c8", argv[1]);
+		i_status = interpreter_init(L"rom.c8", argv[1], &i_state);
 	else
-		i_state = interpreter_init(argv[2], argv[1]);
+		i_status = interpreter_init(argv[2], argv[1], &i_state);
 
-	if (!i_state) {
-		Print(L"Failed to initialize interpreter: interpreter_init returned NULL\n");
+	if (i_status != INT_OK) {
+		Print(L"Failed to initialize interpreter.\n");
 		return EFI_SUCCESS;
 	}
 
-	i_status = interpreter_loop(i_state);
+	i_status = interpreter_loop(&i_state);
 	if (i_status != INT_OK) {
-		Print(L"Failed: interpreter_loop returned %r\n", i_status);
+		Print(L"Failed in interpreter loop.\n");
 	}
 
 	return EFI_SUCCESS;
