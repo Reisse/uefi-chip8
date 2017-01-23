@@ -19,7 +19,7 @@ EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable
 		return EFI_SUCCESS;
 	}
 	else if (argc == 2)
-		i_status = interpreter_init(L"rom.c8", argv[1], &i_state);
+		i_status = interpreter_init(L"CHIP8ROM.ROM", argv[1], &i_state);
 	else
 		i_status = interpreter_init(argv[2], argv[1], &i_state);
 
