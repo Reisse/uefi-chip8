@@ -161,7 +161,7 @@ OPCODE_HANDLER(8XY6)
 	UINT8 X = state->memory[state->PC] & 0x0F;
 	UINT8 Y = state->memory[state->PC + 1] >> 4;
 	state->V[0xF] = state->V[Y] & 0x01;
-	state->V[X] = state->V[Y] > 1;
+	state->V[X] = state->V[Y] >> 1;
 	state->PC += 2;
 }
 
@@ -181,8 +181,8 @@ OPCODE_HANDLER(8XYE)
 {
 	UINT8 X = state->memory[state->PC] & 0x0F;
 	UINT8 Y = state->memory[state->PC + 1] >> 4;
-	state->V[0xF] = (state->V[Y] & 0x80) > 7;
-	state->V[X] = state->V[Y] < 1;
+	state->V[0xF] = state->V[Y] >> 7;
+	state->V[X] = state->V[Y] << 1;
 	state->PC += 2;
 }
 
