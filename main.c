@@ -43,9 +43,9 @@ EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable
 
 	i_status = interpreter_loop(&i_state);
 	if (i_status != INT_OK)
-	{
 		Print(L"Failed in interpreter loop.\n");
-	}
+	else
+		display_clear();
 
 	return EFI_SUCCESS;
 }
