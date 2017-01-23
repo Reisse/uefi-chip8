@@ -38,7 +38,7 @@ display_status_t display_init()
 	if (EFI_ERROR(uefi_call_wrapper(ST->ConOut->EnableCursor, 2, ST->ConOut, FALSE)))
 		return DS_ERROR;
 
-	return DS_OK;
+	return display_clear();
 }
 
 display_status_t display_clear()
