@@ -159,9 +159,11 @@ OPCODE_HANDLER(8XY5)
 OPCODE_HANDLER(8XY6)
 {
 	UINT8 X = state->memory[state->PC] & 0x0F;
-	UINT8 Y = state->memory[state->PC + 1] >> 4;
-	state->V[0xF] = state->V[Y] & 0x01;
-	state->V[X] = state->V[Y] >> 1;
+	/* UINT8 Y = state->memory[state->PC + 1] >> 4; */
+	/* Actually this is not a defined CHIP-8 behaviour, this is a dirty hack to make
+	   Space Invaders by David Winter working. */
+	state->V[0xF] = state->V[X] & 0x01;
+	state->V[X] = state->V[X] >> 1;
 	state->PC += 2;
 }
 
