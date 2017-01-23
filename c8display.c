@@ -46,6 +46,9 @@ display_status_t display_clear()
 	if (EFI_ERROR(uefi_call_wrapper(ST->ConOut->ClearScreen, 1, ST->ConOut)))
 		return DS_ERROR;
 
+	for (int i = 0; i < DISPLAY_WIDTH * DISPLAY_HEIGHT; i++)
+		display[i] = PX_BLANK;
+
 	return DS_OK;
 }
 
@@ -81,6 +84,41 @@ px_status_t display_px_set(unsigned const int x, unsigned const int y, const px_
 
 		return PX_DIRTY;
 	}
+}
+
+px_status_t display_px_xor(unsigned const int x, unsigned const int y, const px_content_t value)
+{
+	if (x > DISPLAY_WIDTH - 1 || y > DISPLAY_HEIGHT - 1 || !GraphOut)
+		return PX_ERROR;
+
+	if (display[x + y * DISPLAY_WIDTH] == PX_BLANK && value == PX_BLANK)
+		return PX_CLEAN;
+	else if (display[x + y * DISPLAY_WIDTH] == PX_FILLED && value == PX_FILLED)
+	{
+		if (EFI_ERROR(uefi_call_wrapper(GraphOut->Blt, 10, GraphOut, &PX_BLACK, EfiBltVideoFill, 0, 0, 
+					x * PX_SCALE_FACTOR, y * PX_SCALE_FACTOR, PX_SCALE_FACTOR, PX_SCALE_FACTOR, 0)))
+			{
+				return PX_ERROR;
+			}
+		display[x + y * DISPLAY_WIDTH] = PX_BLANK;
+		return PX_DIRTY;
+	}
+	else if (display[x + y * DISPLAY_WIDTH] == PX_BLANK && value == PX_FILLED)
+	{
+		if (EFI_ERROR(uefi_call_wrapper(GraphOut->Blt, 10, GraphOut, &PX_WHITE, EfiBltVideoFill, 0, 0, 
+					x * PX_SCALE_FACTOR, y * PX_SCALE_FACTOR, PX_SCALE_FACTOR, PX_SCALE_FACTOR, 0)))
+			{
+				return PX_ERROR;
+			}
+		display[x + y * DISPLAY_WIDTH] = PX_FILLED;
+		return PX_CLEAN;
+	}
+	else if (display[x + y * DISPLAY_WIDTH] == PX_FILLED && value == PX_BLANK)
+	{
+		return PX_CLEAN;
+	}
+
+	return PX_ERROR;
 }
 
 px_status_t display_px_flip(unsigned const int x, unsigned const int y)

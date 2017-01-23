@@ -32,4 +32,5 @@ typedef enum
 display_status_t display_init();
 display_status_t display_clear();
 px_status_t display_px_set(unsigned const int x, unsigned const int y, const px_content_t value);
+px_status_t display_px_xor(unsigned const int x, unsigned const int y, const px_content_t value);
 px_status_t display_px_flip(unsigned const int x, unsigned const int y);
