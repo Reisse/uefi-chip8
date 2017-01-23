@@ -27,9 +27,10 @@ typedef enum
 	KB_D,
 	KB_E,
 	KB_F,
+	KB_ESC,
 	KB_PASS,
 	KB_ERROR
-} keyevent_t;
+} key_event_t;
 
 input_status_t input_init();
-keyevent_t input_next();
+key_event_t input_next();

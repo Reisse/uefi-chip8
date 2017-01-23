@@ -8,7 +8,7 @@ input_status_t input_init()
 	return IN_OK;
 }
 
-keyevent_t input_next()
+key_event_t input_next()
 {
 	EFI_STATUS st;
 	EFI_INPUT_KEY *key_data = NULL;
@@ -76,6 +76,10 @@ keyevent_t input_next()
 			case L'F':
 			case L'f':
 			return KB_F;
+
+			case L'Z':
+			case L'z':
+			return KB_ESC;
 		}
 
 	return KB_PASS;
